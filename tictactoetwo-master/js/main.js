@@ -44,6 +44,15 @@ function handleTurn() {
     turn = turn === 'X' ? 'O' : 'X';
     win = getWinner();
     render();
+
+    // Ajoute la sauvegarde du nombre de parties gagnées
+    if (win === 'X' || win === 'O') {
+        // mettre le nombre de parties gagnées pour le joueur 
+        const playerWins = localStorage.getItem(win) || 0;
+        localStorage.setItem(win, parseInt(playerWins) + 1);
+        // met à jour l'affichage du nombre de parties gagnées
+        updateWinsDisplay();
+    }
 };
 
 function init() {
@@ -53,6 +62,9 @@ function init() {
     '', '', ''
     ];
     render();
+
+    // met à jour l'affichage du nombre de parties gagnées au chargement de la page
+    updateWinsDisplay();
 };
 
 function render() {
@@ -60,7 +72,14 @@ function render() {
     //this moves the value of the board item into the squares[idx]
     squares[index].textContent = mark;
     });
-    messages.textContent = win === 'T' ? `That's a tie, queen!` : win ? `${win} wins the game!` : `It's ${turn}'s turn!`;
+    messages.textContent = win === 'T' ? `C'est un match nul` : win ? `${win} a gagné la partie` : `C'est au tour de ${turn}`;
     };
 
-init();
+    function updateWinsDisplay() {
+        // met à jour l'affichage du nombre de parties gagnées pour chaque joueur
+        const xWins = localStorage.getItem('X') || 0;
+        const oWins = localStorage.getItem('O') || 0;
+        console.log(`Nombre de parties gagnées par X : ${xWins}`);
+        console.log(`Nombre de parties gagnées par O : ${oWins}`);
+    }   
+init();            
